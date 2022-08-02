@@ -1,9 +1,9 @@
 package discord_bot
 
 import (
-	"discord-bot/internal/discord-bot/handlers"
-	"discord-bot/internal/discord-bot/requirements"
-	"discord-bot/pkg/discord"
+	"discord-bot/internal/app/discord-bot/handlers"
+	"discord-bot/internal/app/discord-bot/requirements"
+	"discord-bot/internal/pkg/discord"
 	"github.com/bwmarrin/discordgo"
 )
 

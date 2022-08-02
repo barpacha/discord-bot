@@ -2,7 +2,7 @@ package main
 
 import (
 	"discord-bot/config"
-	discord_bot "discord-bot/internal/discord-bot"
+	"discord-bot/internal/app/discord-bot"
 	"log"
 	"os"
 )

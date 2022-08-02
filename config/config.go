@@ -8,10 +8,18 @@ import (
 
 type Main struct {
 	Discord Discord `yaml:"discord"`
+	Store   Store   `yaml:"store"`
 }
 
 type Discord struct {
 	Token string `yaml:"token"`
+}
+
+type Store struct {
+	Database               string `yaml:"database"`
+	MaxOpenConns           int    `yaml:"max_open_conns"`
+	MaxIdleConns           int    `yaml:"max_idle_conns"`
+	ConnMaxLifetimeMinutes int    `yaml:"conn_max_lifetime_minutes"`
 }
 
 func Yaml(path string) Main {
