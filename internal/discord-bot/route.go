@@ -16,10 +16,15 @@ func Router(resolver *handlers.Resolver) *discord.Router {
 				discord.NewRouter().
 					AddBranch(
 						requirements.NotMe,
-						discord.NewRouter().AddBranch(
-							requirements.MessageContent("Ping"),
-							discord.NewRouter().AddAction(resolver.PingPong),
-						),
+						discord.NewRouter().
+							AddBranch(
+								requirements.MessageContent("Ping"),
+								discord.NewRouter().AddAction(resolver.Ping),
+							).
+							AddBranch(
+								requirements.MessageContent("Pong"),
+								discord.NewRouter().AddAction(resolver.Pong),
+							),
 					),
 			),
 	)
