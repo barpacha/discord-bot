@@ -34,7 +34,7 @@ func (c *Client) Start(ctx context.Context) error {
 	return <-errChan
 }
 
-func (c *Client) RouterCreateMessage() *Router {
+func (c *Client) Router() *Router {
 	return c.router
 }
 

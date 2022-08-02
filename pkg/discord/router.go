@@ -19,16 +19,9 @@ func NewRouter() *Router {
 	}
 }
 
-func NewBranch(requirement BranchRequirement, subRouter *Router) *Branch {
-	return &Branch{
-		requirement: requirement,
-		subRouter:   subRouter,
-	}
-}
-
 func (r *Router) Serve(session *discordgo.Session, message any) {
 	for _, action := range r.actions {
-		action(session, message)
+		action(session, &message)
 	}
 	for _, branch := range r.branches {
 		if branch.requirement(session, message) {
@@ -43,7 +36,10 @@ func (r *Router) AddAction(handler Handler) *Router {
 	return r
 }
 
-func (r *Router) AddBranch(branch *Branch) *Router {
-	r.branches = append(r.branches, branch)
+func (r *Router) AddBranch(requirement BranchRequirement, subRouter *Router) *Router {
+	r.branches = append(r.branches, &Branch{
+		requirement: requirement,
+		subRouter:   subRouter,
+	})
 	return r
 }

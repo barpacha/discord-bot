@@ -15,15 +15,20 @@ func Run(config config.Main) error {
 	if err != nil {
 		return fmt.Errorf("new discord client error: %w", err)
 	}
+	ctx := gracefulContext()
+	err = client.Start(ctx)
+	if err != nil {
+		return fmt.Errorf("new discord client start error: %w", err)
+	}
+	return nil
+}
+
+func gracefulContext() context.Context {
 	ctx, cancel := context.WithCancel(context.Background())
 	irqSig := make(chan os.Signal, 1)
 	go func() {
 		<-irqSig
 		cancel()
 	}()
-	err = client.Start(ctx)
-	if err != nil {
-		return fmt.Errorf("new discord client start error: %w", err)
-	}
-	return nil
+	return ctx
 }
