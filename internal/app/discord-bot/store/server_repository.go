@@ -71,7 +71,7 @@ func (s *ServerRepository) List(ctx context.Context) ([]model.Server, error) {
 	return servers, nil
 }
 
-func (s *ServerRepository) Get(ctx context.Context, id uint) (model.Server, error) {
+func (s *ServerRepository) Get(ctx context.Context, id uint) (*model.Server, error) {
 	dialect := goqu.Dialect(dialect)
 	query, _, _ := dialect.From(serverTable).Insert().Rows(
 		goqu.Record{
@@ -81,14 +81,21 @@ func (s *ServerRepository) Get(ctx context.Context, id uint) (model.Server, erro
 
 	var server model.Server
 
-	if err := s.store.db.QueryRowContext(
+	err := s.store.db.QueryRowContext(
 		ctx,
 		query,
 	).Scan(
 		&server.Id,
 		&server.Active,
-	); err != nil {
-		return model.Server{}, err
+	)
+
+	if err == sql.ErrNoRows {
+		return nil, nil
 	}
-	return server, nil
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &server, nil
 }
